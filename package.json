@@ -8,11 +8,14 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:web": "vite build",
     "build:check": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "electron:dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && electron .\"",
-    "electron:build": "vite build && electron-builder"
+    "electron:build": "vite build && electron-builder",
+    "electron:dist": "vite build && electron-builder --publish=never",
+    "electron:pack": "vite build && electron-builder --dir"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
@@ -44,5 +47,46 @@
     "typescript-eslint": "^8.39.1",
     "vite": "^7.1.2",
     "wait-on": "^8.0.4"
+  },
+  "build": {
+    "appId": "com.securevpn.desktop",
+    "productName": "SecureVPN",
+    "copyright": "Copyright © 2025 SecureVPN",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "public/electron.js",
+      "node_modules/**/*"
+    ],
+    "mac": {
+      "category": "public.app-category.utilities",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        }
+      ]
+    },
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": ["x64"]
+        }
+      ]
+    },
+    "portable": {
+      "artifactName": "SecureVPN-${version}-portable.exe"
+    }
   }
 }
