@@ -117,9 +117,6 @@ export const useVPNStore = create<VPNState>((set, get) => ({
   updateConnectionStats: () => {
     const state = get();
     if (state.isConnected && state.connectionStats.connectionTime > 0) {
-      const now = Date.now();
-      const timeDiff = now - state.connectionStats.connectionTime;
-      
       set(prevState => ({
         connectionStats: {
           ...prevState.connectionStats,
